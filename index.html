@@ -6,23 +6,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Acme&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
 
   <body>
     <div class="container">
-      <div class="button-container">
-        <button data-timer="180" class="button">3 Minutes</button>
+      <div class="timer-buttons">
+        <button data-timer="5" class="button">3 Minutes</button>
         <button data-timer="300" class="button">5 Minutes</button>
         <button data-timer="600" class="button">10 Minutes</button>
       </div>
       <div class="clock-container">
-        <span class="pause"></span>
-        <span class="play"></span>
+        <!-- <div class="button-box">
+          <i class="fa fa-play fa-5x play"></i>
+          <i class="fa fa-pause fa-5x pause">&#xf04b;</i>
+        </div> -->
+        <div class="player-container">
+          <svg
+            class="svg-circle"
+            width="160"
+            height="160"
+            viewbox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="50" cy="50" r="45" class="inner-circle" />
+            <circle cx="50" cy="50" r="45" class="outer-circle" />
+            <text data-buttonvalue="play" x="35" y="60" class="play-button">
+              &#x25b6;
+            </text>
+          </svg>
+        </div>
         <span class="clock"></span>
       </div>
+
       <div class="music-container">
-        <div class="waterflow">
-          <img src="waterflow.png" alt="waterflow" width="100" />
+        <div>
+          <img
+            data-value="beach"
+            class="icons beach"
+            src="images/beach.svg"
+            alt="beach"
+          />
+          <!-- <i class="fa fa-sun-o fa-3x sun" data-value="beach"></i> -->
+        </div>
+        <div>
+          <img
+            data-value="rain"
+            class="icons rain"
+            src="images/rain.svg"
+            alt="rain"
+          />
+          <!-- <i class="fa fa-cloud-showers-heavy cloud fa-5x"></i> -->
         </div>
       </div>
     </div>

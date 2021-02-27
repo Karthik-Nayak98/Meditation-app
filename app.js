@@ -1,31 +1,95 @@
-const clock = document.querySelector(`.clock`);
-const buttons = document.querySelector('.button-container');
+(function () {
+  const STROKE_MAX_VALUE = 283;
 
-let timer;
-clock.textContent = '00:00';
+  const timeCounterContainer = document.querySelector(`.clock`),
+    buttons = document.querySelector('.timer-buttons'),
+    playPauseButton = document.querySelector('.player-container'),
+    soundButtons = document.querySelector('.music-container'),
+    rainSound = new Audio('./sound/rain.mp3'),
+    beachSound = new Audio('./sound/sea-waves.mp3'),
+    svgOuterCircle = document.querySelector('.outer-circle');
 
-// Adding events to buttons using event bubbling
-buttons.addEventListener('click', function (e) {
-  timer = e.target.dataset.timer;
-  startTimer();
-});
+  let totalTime, timeLeft, timePassed;
+  timeCounterContainer.textContent = '00:00';
 
-function startTimer() {
-  let time = setInterval(function () {
-    minute = Math.floor(timer / 60);
-    seconds = timer % 60;
+  // Getting the totalTime value
+  buttons.addEventListener('click', function (e) {
+    totalTime = Number(e.target.dataset.timer);
+    timeLeft = totalTime;
+    timePassed = 0;
+    counterDecrement();
+  });
 
-    if (String(minute).length == 1) {
-      minute = `0` + String(minute);
+  playPauseButton.addEventListener('click', function (e) {
+    const playButton = document.querySelector('.play');
+    const pause = document.querySelector('.pause');
+    let button = e.target.dataset.buttonvalue;
+
+    console.log(button);
+    if (button === 'play') {
+      // playButton.style.display = 'none';
+      // pause.style.display = 'initial';
+      starttotalTime();
+    } else if (button === 'pause') {
+      pause.style.display = 'none';
+      playButton.style.display = 'initial';
     }
-    if (String(seconds).length == 1) {
-      seconds = `0` + String(seconds);
-    }
+  });
 
-    clock.textContent = `${minute}:${seconds}`;
-    if (timer === 0) {
-      clearInterval(time);
+  function timerAnimation() {
+    let fractionTime = timeLeft / totalTime;
+    fractionTime = fractionTime - (1 / totalTime) * (1 - fractionTime);
+    strokeDashValue = `${(fractionTime * STROKE_MAX_VALUE).toFixed(
+      0
+    )} ${STROKE_MAX_VALUE}`;
+    console.log(strokeDashValue);
+    svgOuterCircle.setAttribute('stroke-dasharray', strokeDashValue);
+  }
+
+  function counterDecrement() {
+    let minutes = Math.floor(timeLeft / 60);
+    let seconds = timeLeft % 60;
+
+    if (minutes < 10) minutes = `0${minutes}`;
+    if (seconds < 10) seconds = `0${seconds}`;
+
+    timeCounterContainer.textContent = `${minutes}:${seconds}`;
+  }
+
+  function starttotalTime() {
+    let time = setInterval(function () {
+      counterDecrement();
+      timerAnimation();
+      if (timeLeft === 0) {
+        clearInterval(time);
+        new Audio('./sound/bell.mp3').play();
+        // svgOuterCircle.setAttribute('stroke-dasharray', `0 0`);
+      }
+      timePassed += 1;
+      timeLeft = totalTime - timePassed;
+    }, 1000);
+  }
+
+  soundButtons.addEventListener('click', function (e) {
+    const musicButtonValue = e.target.dataset.value;
+
+    console.log(musicButtonValue);
+    if (musicButtonValue === 'beach') {
+      beachSound.pause();
+      beachSound.currentTime = 0;
+      beachSound.playButton();
+      if (!rainSound.paused) {
+        rainSound.pause();
+        rainSound.currentTime = 0;
+      }
+    } else if (musicButtonValue === 'rain') {
+      rainSound.pause();
+      rainSound.currentTime = 0;
+      rainSound.playButton();
+      if (!beachSound.paused) {
+        beachSound.pause();
+        beachSound.currentTime = 0;
+      }
     }
-    timer -= 1;
-  }, 1000);
-}
+  });
+})();
