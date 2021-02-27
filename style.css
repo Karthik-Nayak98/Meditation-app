@@ -61,13 +61,17 @@ body {
   background-color: burlywood;
 }
 
-.play,
-.pause {
-  color: white;
+text {
+  fill: white;
 }
 
-i.pause {
+.play-button {
+  pointer-events: none;
+}
+
+.pause-button {
   display: none;
+  font-size: 1.7em;
 }
 
 .player-icon {
@@ -103,10 +107,6 @@ i.pause {
   background-color: #99bbad;
 }
 
-/* .svg-circle {
-  transform: translate(0px, 155px);
-} */
-
 circle {
   fill: transparent;
   stroke: lightgray;
@@ -123,6 +123,7 @@ circle {
   transform-origin: 50% 50%;
   transition: 1s linear all;
 }
+
 svg text.play-button {
   font-family: sans-serif;
   font-size: 3em;

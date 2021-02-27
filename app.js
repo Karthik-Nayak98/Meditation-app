@@ -7,9 +7,14 @@
     soundButtons = document.querySelector('.music-container'),
     rainSound = new Audio('./sound/rain.mp3'),
     beachSound = new Audio('./sound/sea-waves.mp3'),
-    svgOuterCircle = document.querySelector('.outer-circle');
+    svgOuterCircle = document.querySelector('.outer-circle'),
+    playButton = document.querySelector('.play-button'),
+    pauseButton = document.querySelector('.pause-button');
 
-  let totalTime, timeLeft, timePassed;
+  let totalTime,
+    timeLeft,
+    timePassed,
+    timer = null;
   timeCounterContainer.textContent = '00:00';
 
   // Getting the totalTime value
@@ -17,22 +22,22 @@
     totalTime = Number(e.target.dataset.timer);
     timeLeft = totalTime;
     timePassed = 0;
+    playButton.style.pointerEvents = 'initial';
     counterDecrement();
   });
 
   playPauseButton.addEventListener('click', function (e) {
-    const playButton = document.querySelector('.play');
-    const pause = document.querySelector('.pause');
     let button = e.target.dataset.buttonvalue;
 
     console.log(button);
     if (button === 'play') {
-      // playButton.style.display = 'none';
-      // pause.style.display = 'initial';
+      playButton.style.display = 'none';
+      pauseButton.style.display = 'initial';
       starttotalTime();
     } else if (button === 'pause') {
-      pause.style.display = 'none';
+      pauseButton.style.display = 'none';
       playButton.style.display = 'initial';
+      clearInterval(timer);
     }
   });
 
@@ -57,11 +62,11 @@
   }
 
   function starttotalTime() {
-    let time = setInterval(function () {
+    timer = setInterval(function () {
       counterDecrement();
       timerAnimation();
       if (timeLeft === 0) {
-        clearInterval(time);
+        clearInterval(timer);
         new Audio('./sound/bell.mp3').play();
         // svgOuterCircle.setAttribute('stroke-dasharray', `0 0`);
       }

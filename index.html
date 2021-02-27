@@ -15,10 +15,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
-    <script
-      src="https://kit.fontawesome.com/a076d05399.js"
-      crossorigin="anonymous"
-    ></script>
   </head>
 
   <body>
@@ -43,8 +39,17 @@
           >
             <circle cx="50" cy="50" r="45" class="inner-circle" />
             <circle cx="50" cy="50" r="45" class="outer-circle" />
-            <text data-buttonvalue="play" x="35" y="60" class="play-button">
+            <text
+              disabled
+              data-buttonvalue="play"
+              x="35"
+              y="60"
+              class="play-button"
+            >
               &#x25b6;
+            </text>
+            <text data-buttonvalue="pause" x="35" y="60" class="pause-button">
+              &#9612; &#9612;
             </text>
           </svg>
         </div>
@@ -59,7 +64,6 @@
             src="images/beach.svg"
             alt="beach"
           />
-          <!-- <i class="fa fa-sun-o fa-3x sun" data-value="beach"></i> -->
         </div>
         <div>
           <img
@@ -68,7 +72,6 @@
             src="images/rain.svg"
             alt="rain"
           />
-          <!-- <i class="fa fa-cloud-showers-heavy cloud fa-5x"></i> -->
         </div>
       </div>
     </div>
