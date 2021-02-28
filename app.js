@@ -1,5 +1,8 @@
 (function () {
-  const STROKE_MAX_VALUE = 283;
+  const STROKE_MAX_VALUE = 283,
+    WARNING_COLOR = '#ffcc00',
+    DANGER_COLOR = '#cc3300',
+    NORMAL_COLOR = '#99cc33';
 
   const timeCounterContainer = document.querySelector(`.clock`),
     buttons = document.querySelector('.timer-buttons'),
@@ -14,7 +17,9 @@
   let totalTime,
     timeLeft,
     timePassed,
-    timer = null;
+    timer = null,
+    warningValue,
+    dangerValue;
   timeCounterContainer.textContent = '00:00';
 
   // Getting the totalTime value
@@ -23,13 +28,15 @@
     timeLeft = totalTime;
     timePassed = 0;
     playButton.style.pointerEvents = 'initial';
+    (warningValue = (totalTime * 50) / 100),
+      (dangerValue = (totalTime * 10) / 100);
     counterDecrement();
+    // timerAnimation();
   });
 
   playPauseButton.addEventListener('click', function (e) {
     let button = e.target.dataset.buttonvalue;
 
-    console.log(button);
     if (button === 'play') {
       playButton.style.display = 'none';
       pauseButton.style.display = 'initial';
@@ -41,14 +48,22 @@
     }
   });
 
+  function changeColor() {
+    if (timeLeft <= dangerValue) svgOuterCircle.style.stroke = DANGER_COLOR;
+    else if (timeLeft <= warningValue)
+      svgOuterCircle.style.stroke = WARNING_COLOR;
+    else svgOuterCircle.style.stroke = NORMAL_COLOR;
+  }
   function timerAnimation() {
-    let fractionTime = timeLeft / totalTime;
-    fractionTime = fractionTime - (1 / totalTime) * (1 - fractionTime);
+    let fractionTime = timePassed / totalTime;
+    // fractionTime = fractionTime - (1 / totalTime) * (1 + fractionTime);
     strokeDashValue = `${(fractionTime * STROKE_MAX_VALUE).toFixed(
       0
     )} ${STROKE_MAX_VALUE}`;
     console.log(strokeDashValue);
     svgOuterCircle.setAttribute('stroke-dasharray', strokeDashValue);
+
+    changeColor();
   }
 
   function counterDecrement() {
@@ -63,15 +78,17 @@
 
   function starttotalTime() {
     timer = setInterval(function () {
+      timePassed += 1;
+      timeLeft = totalTime - timePassed;
       counterDecrement();
       timerAnimation();
       if (timeLeft === 0) {
         clearInterval(timer);
         new Audio('./sound/bell.mp3').play();
-        // svgOuterCircle.setAttribute('stroke-dasharray', `0 0`);
+        svgOuterCircle.setAttribute('stroke-dasharray', `283 283`);
+        playButton.style.display = 'initial';
+        pauseButton.style.display = 'none';
       }
-      timePassed += 1;
-      timeLeft = totalTime - timePassed;
     }, 1000);
   }
 

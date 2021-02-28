@@ -107,6 +107,7 @@ text {
   background-color: #99bbad;
 }
 
+/* SVG styles */
 circle {
   fill: transparent;
   stroke: lightgray;
@@ -114,9 +115,9 @@ circle {
 }
 
 .outer-circle {
-  stroke: red;
-  /* stroke-dasharray: 100; */
-  stroke-linecap: round;
+  stroke: lightgray;
+  /* stroke-dasharray: 0 283; */
+  /* stroke-linecap: round; */
   stroke-width: 10;
   transform: rotate(-90deg);
   transform-origin: center;
