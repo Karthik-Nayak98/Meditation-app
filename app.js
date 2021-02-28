@@ -4,12 +4,12 @@
     DANGER_COLOR = '#cc3300',
     NORMAL_COLOR = '#99cc33';
 
-  const timeCounterContainer = document.querySelector(`.clock`),
+  const timeCounterContainer = document.querySelector('.timer'),
     buttons = document.querySelector('.timer-buttons'),
     playPauseButton = document.querySelector('.player-container'),
     soundButtons = document.querySelector('.music-container'),
-    rainSound = new Audio('./sound/rain.mp3'),
-    beachSound = new Audio('./sound/sea-waves.mp3'),
+    rainSound = document.querySelector('.rain-sound'),
+    beachSound = document.querySelector('.beach-sound'),
     svgOuterCircle = document.querySelector('.outer-circle'),
     playButton = document.querySelector('.play-button'),
     pauseButton = document.querySelector('.pause-button');
@@ -28,8 +28,8 @@
     timeLeft = totalTime;
     timePassed = 0;
     playButton.style.pointerEvents = 'initial';
-    (warningValue = (totalTime * 50) / 100),
-      (dangerValue = (totalTime * 10) / 100);
+    warningValue = (totalTime * 50) / 100;
+    dangerValue = (totalTime * 10) / 100;
     counterDecrement();
     // timerAnimation();
   });
@@ -48,6 +48,14 @@
     }
   });
 
+  function rainSoundPause() {
+    rainSound.pause();
+    rainSound.currentTime = 0;
+  }
+  function beachSoundPause() {
+    beachSound.pause();
+    beachSound.currentTime = 0;
+  }
   function changeColor() {
     if (timeLeft <= dangerValue) svgOuterCircle.style.stroke = DANGER_COLOR;
     else if (timeLeft <= warningValue)
@@ -62,7 +70,6 @@
     )} ${STROKE_MAX_VALUE}`;
     console.log(strokeDashValue);
     svgOuterCircle.setAttribute('stroke-dasharray', strokeDashValue);
-
     changeColor();
   }
 
@@ -82,10 +89,19 @@
       timeLeft = totalTime - timePassed;
       counterDecrement();
       timerAnimation();
+      if (timeLeft === 1) {
+        if (!rainSound.paused) {
+          rainSoundPause();
+        }
+        if (!beachSound.paused) {
+          beachSoundPause();
+        }
+      }
       if (timeLeft === 0) {
         clearInterval(timer);
         new Audio('./sound/bell.mp3').play();
-        svgOuterCircle.setAttribute('stroke-dasharray', `283 283`);
+        // svgOuterCircle.setAttribute('stroke-dasharray', `283 283`);
+        svgOuterCircle.style.stroke = 'lightgray';
         playButton.style.display = 'initial';
         pauseButton.style.display = 'none';
       }
@@ -94,23 +110,17 @@
 
   soundButtons.addEventListener('click', function (e) {
     const musicButtonValue = e.target.dataset.value;
-
-    console.log(musicButtonValue);
     if (musicButtonValue === 'beach') {
-      beachSound.pause();
-      beachSound.currentTime = 0;
-      beachSound.playButton();
+      beachSoundPause();
+      beachSound.play();
       if (!rainSound.paused) {
-        rainSound.pause();
-        rainSound.currentTime = 0;
+        rainSoundPause();
       }
     } else if (musicButtonValue === 'rain') {
-      rainSound.pause();
-      rainSound.currentTime = 0;
-      rainSound.playButton();
+      rainSoundPause();
+      rainSound.play();
       if (!beachSound.paused) {
-        beachSound.pause();
-        beachSound.currentTime = 0;
+        beachSoundPause();
       }
     }
   });

@@ -20,15 +20,11 @@
   <body>
     <div class="container">
       <div class="timer-buttons">
-        <button data-timer="30" class="button">3 Minutes</button>
+        <button data-timer="180" class="button">3 Minutes</button>
         <button data-timer="300" class="button">5 Minutes</button>
         <button data-timer="600" class="button">10 Minutes</button>
       </div>
-      <div class="clock-container">
-        <!-- <div class="button-box">
-          <i class="fa fa-play fa-5x play"></i>
-          <i class="fa fa-pause fa-5x pause">&#xf04b;</i>
-        </div> -->
+      <div class="timer-container">
         <div class="player-container">
           <svg
             class="svg-circle"
@@ -39,13 +35,7 @@
           >
             <circle cx="50" cy="50" r="45" class="inner-circle" />
             <circle cx="50" cy="50" r="45" class="outer-circle" />
-            <text
-              disabled
-              data-buttonvalue="play"
-              x="35"
-              y="60"
-              class="play-button"
-            >
+            <text data-buttonvalue="play" x="35" y="60" class="play-button">
               &#x25b6;
             </text>
             <text data-buttonvalue="pause" x="35" y="60" class="pause-button">
@@ -53,9 +43,21 @@
             </text>
           </svg>
         </div>
-        <span class="clock"></span>
+        <span class="timer"></span>
       </div>
 
+      <audio
+        loop
+        src="sound/sea-waves.mp3"
+        type="audio/mp3"
+        class="beach-sound"
+      ></audio>
+      <audio
+        loop
+        src="sound/bell.mp3"
+        type="audio/mp3"
+        class="rain-sound"
+      ></audio>
       <div class="music-container">
         <div>
           <img

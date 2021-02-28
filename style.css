@@ -46,12 +46,11 @@ body {
   color: white;
 }
 
-.clock-container {
+.timer-container {
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* border: 2px solid red; */
   flex-direction: column;
 }
 
@@ -79,7 +78,7 @@ text {
   /* border: 2px solid red; */
 }
 
-.clock {
+.timer {
   color: white;
   font-size: 2rem;
 }
@@ -117,12 +116,12 @@ circle {
 .outer-circle {
   stroke: lightgray;
   /* stroke-dasharray: 0 283; */
-  /* stroke-linecap: round; */
+  stroke-linecap: round;
   stroke-width: 10;
+  transition: 1s linear all;
   transform: rotate(-90deg);
   transform-origin: center;
   transform-origin: 50% 50%;
-  transition: 1s linear all;
 }
 
 svg text.play-button {
